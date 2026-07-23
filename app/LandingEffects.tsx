@@ -9,11 +9,35 @@ import * as THREE from "three";
 export default function LandingEffects() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, CustomEase);
+
+    // Resources created OUTSIDE GSAP that ctx.revert() does not touch: the sky's
+    // requestAnimationFrame loop, raw event listeners, and the three.js WebGL
+    // context. Track them so unmount (and React strict-mode's throwaway first
+    // mount in dev) can tear them down instead of leaking a second rAF loop,
+    // duplicate listeners, and an undisposed GL context.
+    let rafId = 0;
+    let disposeRenderer: (() => void) | undefined;
+    const listeners: Array<() => void> = [];
+    const on = (
+      target: EventTarget,
+      type: string,
+      handler: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions
+    ) => {
+      target.addEventListener(type, handler, options);
+      listeners.push(() => target.removeEventListener(type, handler, options));
+    };
+
     const ctx = gsap.context(() => {
       initSky();
       initAnimations();
     });
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      cancelAnimationFrame(rafId);
+      listeners.forEach((off) => off());
+      disposeRenderer?.();
+    };
 
     // --- ported below ---
 
@@ -113,32 +137,41 @@ export default function LandingEffects() {
 
       /* mouse parallax — orig: target ±0.05*(cursor-center), eased 1% per frame */
       const mouse = { x: 0, y: 0 };
-      window.addEventListener("mousemove", function (e: MouseEvent) {
+      const onSkyMouseMove = (e: MouseEvent) => {
         mouse.x = 0.05 * (e.clientX - window.innerWidth / 2);
         mouse.y = 0.05 * (e.clientY - window.innerHeight / 2);
-      });
+      };
+      on(window, "mousemove", onSkyMouseMove as EventListener);
 
-      window.addEventListener("resize", function () {
+      const onSkyResize = () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-      });
+      };
+      on(window, "resize", onSkyResize);
 
-      (function frame() {
+      const frame = () => {
         const t = (0.03 * (Date.now() - epoch)) % LOOP; // 30 units/s, seamless wrap
         camera.position.x += 0.01 * (mouse.x - camera.position.x);
         camera.position.y += 0.01 * (-mouse.y - camera.position.y);
         camera.position.z = -t + LOOP;
         renderer.render(scene, camera);
-        requestAnimationFrame(frame);
-      })();
+        rafId = requestAnimationFrame(frame);
+      };
+      rafId = requestAnimationFrame(frame);
+
+      // dispose the WebGL context on teardown (ctx.revert() won't)
+      disposeRenderer = () => {
+        renderer.dispose();
+        renderer.forceContextLoss?.();
+      };
     }
 
     /* Runway landing — GSAP scroll animations + interactions (v3) */
     function initAnimations() {
       /* ---------- preloader ---------- */
       const pre = document.getElementById("preloader");
-      window.addEventListener("load", () => {
+      on(window, "load", () => {
         if (!pre) return;
         pre.classList.add("done");
         setTimeout(() => pre.remove(), 900);
@@ -156,17 +189,17 @@ export default function LandingEffects() {
         document.body.classList.toggle("scrolled", window.scrollY > 80);
         if (mobileMenu && window.scrollY <= 80) mobileMenu.classList.remove("open");
       };
-      window.addEventListener("scroll", onScroll, { passive: true });
+      on(window, "scroll", onScroll, { passive: true });
       onScroll();
       if (burger && mobileMenu) {
-        burger.addEventListener("click", () => {
+        on(burger, "click", () => {
           const open = mobileMenu.classList.toggle("open");
           burger.setAttribute("aria-expanded", String(open));
         });
       }
       if (mobileMenu) {
         mobileMenu.querySelectorAll("a").forEach((a) =>
-          a.addEventListener("click", () => mobileMenu.classList.remove("open"))
+          on(a, "click", () => mobileMenu.classList.remove("open"))
         );
       }
 
@@ -204,7 +237,7 @@ export default function LandingEffects() {
           if (whiteBottom) whiteBottom.style.height = h + "px";
         };
         whiteFit();
-        window.addEventListener("resize", whiteFit);
+        on(window, "resize", whiteFit);
       }
 
       /* under-layer: product screenshot slides to viewport center over the 150vh section */
@@ -313,7 +346,7 @@ export default function LandingEffects() {
 
         /* card click scrolls to its trigger (orig: scrollTo trigger-N offsetY 25) */
         document.querySelectorAll("[data-trigger]").forEach((card) => {
-          card.addEventListener("click", () => {
+          on(card, "click", () => {
             const t = document.querySelector(`.trigger-${(card as HTMLElement).dataset.trigger}`);
             if (!t) return;
             window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 25, behavior: "smooth" });
@@ -525,20 +558,20 @@ export default function LandingEffects() {
         eaModal.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
       }
-      if (eaBack) eaBack.addEventListener("click", closeModal);
-      document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+      if (eaBack) on(eaBack, "click", closeModal);
+      on(document, "keydown", (e) => { if ((e as KeyboardEvent).key === "Escape") closeModal(); });
       // every Get Early Access / Early Access CTA opens the modal (like the original)
       document.querySelectorAll(".btn-header, .early-access-tile").forEach((el) =>
-        el.addEventListener("click", openModal)
+        on(el, "click", openModal)
       );
       document.querySelectorAll('.footer-list a[href="#boarding"], .mobile-menu a[href="#boarding"], .main-nav a[href="#boarding"]').forEach((el) => {
-        if (/Get Early Access|Early Access/.test(el.textContent ?? "")) el.addEventListener("click", openModal);
+        if (/Get Early Access|Early Access/.test(el.textContent ?? "")) on(el, "click", openModal);
       });
 
       const form = document.getElementById("accessForm") as HTMLFormElement | null;
       function wireForm(f: HTMLFormElement | null) {
         if (!f) return;
-        f.addEventListener("submit", (e) => {
+        on(f, "submit", (e) => {
           e.preventDefault();
           const fields = f.querySelectorAll("input");
           let ok = true;
