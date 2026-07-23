@@ -8,14 +8,14 @@ export type RequestCardData = {
   currency: string; notes: string | null; buyer?: { fullName: string };
 };
 
-export default function RequestCard({ request }: { request: RequestCardData }) {
+export default function RequestCard({ request, href }: { request: RequestCardData; href?: string }) {
   const { platformFee, totalCost } = computeTotals(request);
   const savings = computeSavings(request.localPrice, totalCost);
   const c = request.currency;
   // defensive: never emit an href for a non-http(s) scheme (stored-XSS guard)
   const safeUrl = request.productUrl && isSafeHttpUrl(request.productUrl) ? request.productUrl : null;
-  return (
-    <article className="cb-card">
+  const body = (
+    <>
       <div className="cb-card-title">{request.title}</div>
       <div className="cb-card-meta">
         {request.originCountry} → {request.destinationCountry}{request.category ? ` · ${request.category}` : ""}
@@ -27,8 +27,10 @@ export default function RequestCard({ request }: { request: RequestCardData }) {
         <div className="cb-card-total"><dt>Total</dt><dd>{formatMoney(totalCost, c)}</dd></div>
       </dl>
       {savings != null && savings > 0 && <div className="cb-card-savings">You save {formatMoney(savings, c)}</div>}
-      {safeUrl && <a className="cb-card-link" href={safeUrl} target="_blank" rel="noopener noreferrer">Product link ↗</a>}
+      {!href && safeUrl && <a className="cb-card-link" href={safeUrl} target="_blank" rel="noopener noreferrer">Product link ↗</a>}
       {request.buyer && <div className="cb-card-by">Buyer: {request.buyer.fullName}</div>}
-    </article>
+    </>
   );
+  if (href) return <a className="cb-card cb-card-link-wrap" href={href}>{body}</a>;
+  return <article className="cb-card">{body}</article>;
 }

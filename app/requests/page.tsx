@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/db";
+import AppNav from "@/components/app/AppNav";
 import RequestCard from "@/components/app/RequestCard";
 
 export default async function BrowseRequests() {
@@ -13,12 +14,15 @@ export default async function BrowseRequests() {
     include: { buyer: { select: { fullName: true } } },
   });
   return (
-    <main className="cb-dash">
-      <h1>Open requests</h1>
-      <p className="cb-dash-sub">Buyers waiting for a traveler — carry one on a trip you&apos;re already taking.</p>
-      {requests.length === 0
-        ? <p className="cb-dash-sub">No open requests yet.</p>
-        : <div className="cb-cards">{requests.map(r => <RequestCard key={r.id} request={r as any} />)}</div>}
-    </main>
+    <>
+      <AppNav />
+      <main className="cb-dash">
+        <h1>Open requests</h1>
+        <p className="cb-dash-sub">Buyers waiting for a traveler — carry one on a trip you&apos;re already taking, earn the reward.</p>
+        {requests.length === 0
+          ? <p className="cb-dash-sub">No open requests yet.</p>
+          : <div className="cb-cards">{requests.map(r => <RequestCard key={r.id} request={r as any} href={`/requests/${r.id}`} />)}</div>}
+      </main>
+    </>
   );
 }
