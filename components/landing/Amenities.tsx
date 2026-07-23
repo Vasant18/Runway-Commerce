@@ -31,7 +31,7 @@ export default function Amenities() {
                 <div className="bnf-icon product-icon-1" dangerouslySetInnerHTML={{ __html: ICON_1 }} />
               </div>
               <div className="product-inner-1 bnf-inner">
-                <div className="bnf-title"><span style={{ color: "#F9A600" }}>Request</span> actuals from all your business tools.</div>
+                <div className="bnf-title"><span style={{ color: "#F9A600" }}>Request</span> the products you want from anywhere.</div>
                 <div className="bnf-planediv">
                   <p>AUT</p>
                   <div className="bnf-planewrap product-plane-1" style={{ "--pc": "#F9A600" } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: PLANE }} />
@@ -47,7 +47,7 @@ export default function Amenities() {
                 <div className="bnf-icon product-icon-2" dangerouslySetInnerHTML={{ __html: ICON_2 }} />
               </div>
               <div className="product-inner-2 bnf-inner">
-                <div className="bnf-title">A <span style={{ color: "#ADE988" }}>joyful modeling experience</span> that prepares you for scale.</div>
+                <div className="bnf-title">Get <span style={{ color: "#ADE988" }}>matched with travelers</span> already heading your way.</div>
                 <div className="bnf-planediv">
                   <p>SMP</p>
                   <div className="bnf-planewrap product-plane-2" style={{ "--pc": "#ADE988" } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: PLANE }} />
@@ -63,7 +63,7 @@ export default function Amenities() {
                 <div className="bnf-icon product-icon-3" dangerouslySetInnerHTML={{ __html: ICON_3 }} />
               </div>
               <div className="product-inner-3 bnf-inner">
-                <div className="bnf-title">Protect <span style={{ color: "#2C8AC0" }}>numbers</span> with your business intent.</div>
+                <div className="bnf-title">Protect <span style={{ color: "#2C8AC0" }}>every payment</span> with secure escrow.</div>
                 <div className="bnf-planediv">
                   <p>INT</p>
                   <div className="bnf-planewrap product-plane-3" style={{ "--pc": "#2C8AC0" } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: PLANE }} />
@@ -79,7 +79,7 @@ export default function Amenities() {
                 <div className="bnf-icon product-icon-4" dangerouslySetInnerHTML={{ __html: ICON_4 }} />
               </div>
               <div className="product-inner-4 bnf-inner">
-                <div className="bnf-title">Follow <span style={{ color: "#F06246" }}>&#8220;what if&#8220;</span> questions yourself, or with your AI copilot.</div>
+                <div className="bnf-title">Follow <span style={{ color: "#F06246" }}>your delivery</span> from purchase to handoff.</div>
                 <div className="bnf-planediv">
                   <p>WTF</p>
                   <div className="bnf-planewrap product-plane-4" style={{ "--pc": "#F06246" } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: PLANE }} />
@@ -95,7 +95,7 @@ export default function Amenities() {
                 <div className="bnf-icon product-icon-5" dangerouslySetInnerHTML={{ __html: ICON_5 }} />
               </div>
               <div className="product-inner-5 bnf-inner">
-                <div className="bnf-title">Rate and <span style={{ color: "#B08CE1" }}>interactive reports</span> in seconds that never go out-of-date.</div>
+                <div className="bnf-title">Rate travelers and <span style={{ color: "#B08CE1" }}>build trust</span> for next time.</div>
                 <div className="bnf-planediv">
                   <p>YOU</p>
                   <div className="bnf-planewrap product-plane-5" style={{ "--pc": "#B08CE1" } as React.CSSProperties} dangerouslySetInnerHTML={{ __html: PLANE }} />
