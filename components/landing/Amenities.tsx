@@ -70,7 +70,7 @@ export default function Amenities() {
                   <div className="bnf-dotted"></div>
                   <p>NUM</p>
                 </div>
-                <p className="bnf-text">Your payment is held safely in escrow and only released to the traveler once you confirm the item is in your hands.</p>
+                <p className="bnf-text">Your payment sits in escrow the whole journey — through the flight, our hub, and the courier — and releases only when you confirm delivery with your OTP.</p>
               </div>
             </div>
             <div className="productCard-4 bnf-card" data-trigger="4">
@@ -86,7 +86,7 @@ export default function Amenities() {
                   <div className="bnf-dotted"></div>
                   <p>ANS</p>
                 </div>
-                <p className="bnf-text">Follow your item from purchase to handoff with live status updates and secure in-app messaging with your traveler.</p>
+                <p className="bnf-text">Track it like a flight — purchased, boarded, landed, at our hub, out for delivery. A local partner carries the last mile and hands it over against your one-time OTP.</p>
               </div>
             </div>
             <div className="productCard-5 bnf-card" data-trigger="5">

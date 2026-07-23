@@ -73,7 +73,7 @@ export default function Betterway() {
                 <div className="bwc-icon" dangerouslySetInnerHTML={{ __html: CARD_ICON_B3 }} />
                 <h4 className="bwc-title">Pay with confidence</h4>
               </div>
-              <p className="bwc-text">Your money sits in escrow until you confirm delivery, so you&#8217;re never out of pocket for an order that doesn&#8217;t arrive.</p>
+              <p className="bwc-text">Your money sits in escrow until the courier hands it over against your OTP — you&#8217;re never out of pocket for an order that doesn&#8217;t arrive.</p>
               <img className="bwc-img" src="/assets/img/card-scenarios.webp" alt="Pay with confidence" loading="eager" />
             </article>
           </div>
@@ -87,7 +87,7 @@ export default function Betterway() {
                 <div className="bwc-icon" dangerouslySetInnerHTML={{ __html: CARD_ICON_E1 }} />
                 <h4 className="bwc-title">Earn on trips you&#8217;re taking</h4>
               </div>
-              <p className="bwc-text">Turn spare luggage space into income on journeys you&#8217;re already making — no extra travel required.</p>
+              <p className="bwc-text">Turn spare luggage space into income on journeys you&#8217;re already making — land, hand the parcel to our hub, and we handle the rest.</p>
               <img className="bwc-img" src="/assets/img/card-plans.webp" alt="Earn on trips you're taking" loading="eager" />
             </article>
             <article className="bw-card card-Built-for-Executives">
