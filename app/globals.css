@@ -1546,3 +1546,83 @@ img { display: block; max-width: 100%; }
   border: 1px solid var(--grey);
 }
 .cb-cta.ghost:hover { border-color: var(--paper); background: transparent; }
+
+/* ── Phase 3: app shell, chips, tracker, order cards ───────── */
+.cb-appnav {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 24px;
+  padding: 14px var(--pad);
+  background: var(--ink-2);
+  border-bottom: 1px solid rgba(253, 252, 252, 0.12);
+}
+.cb-appnav-brand {
+  font-family: var(--font);
+  font-weight: 700; font-size: 15px; letter-spacing: 3px;
+  color: var(--amber); text-decoration: none;
+}
+.cb-appnav-links { display: flex; gap: 18px; flex: 1; flex-wrap: wrap; }
+.cb-appnav-links a {
+  font-size: 14px; font-weight: 600; color: var(--paper);
+  text-decoration: none; opacity: .8; transition: opacity .2s;
+}
+.cb-appnav-links a:hover { opacity: 1; }
+.cb-appnav-links a.cb-appnav-ops { color: var(--amber); }
+.cb-appnav-user { display: flex; align-items: center; gap: 12px; }
+.cb-appnav-name { font-size: 14px; font-weight: 600; color: var(--grey); }
+.cb-appnav-out {
+  font-family: var(--font); font-size: 13px; font-weight: 600;
+  color: var(--paper); background: transparent;
+  border: 1px solid var(--grey); border-radius: 999px;
+  padding: 6px 14px; cursor: pointer; transition: border-color .2s;
+}
+.cb-appnav-out:hover { border-color: var(--paper); }
+
+/* status chips */
+.cb-chip {
+  display: inline-block;
+  font-size: 12px; font-weight: 700; letter-spacing: .4px;
+  text-transform: uppercase;
+  border-radius: 999px; padding: 5px 12px;
+}
+.cb-chip-amber { background: var(--amber); color: var(--ink); }
+.cb-chip-leaf { background: var(--leaf); color: var(--ink); }
+.cb-chip-lilac { background: var(--lilac); color: var(--ink); }
+.cb-chip-grey { background: var(--grey-lt); color: var(--ink); }
+
+/* itinerary tracker */
+.cb-tracker {
+  display: flex; flex-wrap: wrap; gap: 0;
+  background: var(--paper); color: var(--ink);
+  border-radius: var(--radius-md); padding: 20px 16px;
+}
+.cb-tracker-step {
+  flex: 1 1 0; min-width: 92px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  position: relative; text-align: center; padding: 0 4px;
+}
+.cb-tracker-step:not(:last-child)::after {
+  content: ""; position: absolute; top: 21px; left: calc(50% + 26px);
+  width: calc(100% - 52px); height: 2px; background: var(--grey-lt);
+}
+.cb-tracker-step.done:not(:last-child)::after { background: var(--ink); }
+.cb-tracker-dot {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--grey-lt); color: var(--grey);
+  background: var(--paper); z-index: 1;
+}
+.cb-tracker-dot svg { width: 20px; height: 20px; }
+.cb-tracker-step.done .cb-tracker-dot { border-color: var(--ink); color: var(--ink); background: var(--paper); }
+.cb-tracker-step.active .cb-tracker-dot { border-color: var(--amber); background: var(--amber); color: var(--ink); }
+.cb-tracker-label { font-size: 12px; font-weight: 600; color: var(--grey); }
+.cb-tracker-step.done .cb-tracker-label, .cb-tracker-step.active .cb-tracker-label { color: var(--ink); }
+.cb-tracker-note { font-size: 11px; color: var(--orange); font-weight: 600; }
+
+/* order-card additions */
+.cb-card-link-wrap { text-decoration: none; transition: transform .15s ease; }
+.cb-card-link-wrap:hover { transform: translateY(-2px); }
+.cb-card-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: auto; padding-top: 8px;
+}
+.cb-card-total-inline { font-weight: 700; font-size: 16px; }
