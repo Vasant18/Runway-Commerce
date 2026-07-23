@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     title: title ?? "", originCountry: originCountry ?? "", destinationCountry: destinationCountry ?? "",
     productPrice: Number(productPrice), travelerReward: Number(travelerReward),
     localPrice: localPrice != null && localPrice !== "" ? Number(localPrice) : null,
-    currency: currency ?? "",
+    currency: currency ?? "", productUrl: productUrl ?? null,
   });
   if (err) return NextResponse.json({ error: err }, { status: 400 });
 

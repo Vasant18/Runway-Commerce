@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isValidEmail, passwordError, signupError, tripError, requestError } from "./validation";
+import { isValidEmail, passwordError, signupError, tripError, requestError, isSafeHttpUrl } from "./validation";
 
 describe("isValidEmail", () => {
   it("accepts a normal email", () => expect(isValidEmail("a@b.co")).toBe(true));
@@ -40,4 +40,24 @@ describe("requestError", () => {
   it("reward >= 0", () => expect(requestError({ ...ok, travelerReward: -5 })).toMatch(/reward/i));
   it("localPrice > 0 if given", () => expect(requestError({ ...ok, localPrice: -1 })).toMatch(/local|price/i));
   it("currency is 3 letters", () => expect(requestError({ ...ok, currency: "US" })).toMatch(/currency/i));
+  it("allows a valid https productUrl", () => expect(requestError({ ...ok, productUrl: "https://shop.example.com/x" })).toBeNull());
+  it("allows empty/omitted productUrl", () => {
+    expect(requestError({ ...ok, productUrl: "" })).toBeNull();
+    expect(requestError({ ...ok, productUrl: null })).toBeNull();
+  });
+  it("rejects javascript: productUrl", () => expect(requestError({ ...ok, productUrl: "javascript:alert(1)" })).toMatch(/url/i));
+  it("rejects data: productUrl", () => expect(requestError({ ...ok, productUrl: "data:text/html,<script>1</script>" })).toMatch(/url/i));
+});
+
+describe("isSafeHttpUrl", () => {
+  it("accepts http/https", () => {
+    expect(isSafeHttpUrl("http://a.com")).toBe(true);
+    expect(isSafeHttpUrl("https://a.com/p?x=1")).toBe(true);
+  });
+  it("rejects javascript:", () => expect(isSafeHttpUrl("javascript:alert(1)")).toBe(false));
+  it("rejects data:", () => expect(isSafeHttpUrl("data:text/html,x")).toBe(false));
+  it("rejects garbage / relative", () => {
+    expect(isSafeHttpUrl("not a url")).toBe(false);
+    expect(isSafeHttpUrl("/relative/path")).toBe(false);
+  });
 });

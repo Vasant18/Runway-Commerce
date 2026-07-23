@@ -1,4 +1,5 @@
 import { computeTotals, computeSavings, formatMoney } from "@/lib/money";
+import { isSafeHttpUrl } from "@/lib/validation";
 
 export type RequestCardData = {
   id: string; title: string; category: string | null; productUrl: string | null;
@@ -11,6 +12,8 @@ export default function RequestCard({ request }: { request: RequestCardData }) {
   const { platformFee, totalCost } = computeTotals(request);
   const savings = computeSavings(request.localPrice, totalCost);
   const c = request.currency;
+  // defensive: never emit an href for a non-http(s) scheme (stored-XSS guard)
+  const safeUrl = request.productUrl && isSafeHttpUrl(request.productUrl) ? request.productUrl : null;
   return (
     <article className="cb-card">
       <div className="cb-card-title">{request.title}</div>
@@ -24,7 +27,7 @@ export default function RequestCard({ request }: { request: RequestCardData }) {
         <div className="cb-card-total"><dt>Total</dt><dd>{formatMoney(totalCost, c)}</dd></div>
       </dl>
       {savings != null && savings > 0 && <div className="cb-card-savings">You save {formatMoney(savings, c)}</div>}
-      {request.productUrl && <a className="cb-card-link" href={request.productUrl} target="_blank" rel="noopener noreferrer">Product link ↗</a>}
+      {safeUrl && <a className="cb-card-link" href={safeUrl} target="_blank" rel="noopener noreferrer">Product link ↗</a>}
       {request.buyer && <div className="cb-card-by">Buyer: {request.buyer.fullName}</div>}
     </article>
   );

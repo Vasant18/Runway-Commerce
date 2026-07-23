@@ -40,9 +40,22 @@ export function tripError(input: {
   return null;
 }
 
+// Only http(s) URLs are safe to render into an href. Rejects javascript:, data:,
+// vbscript:, etc. — a stored productUrl is later shown as a link on the public browse
+// page, so an unsafe scheme would be a stored-XSS vector.
+export function isSafeHttpUrl(s: string): boolean {
+  try {
+    const u = new URL(s.trim());
+    return u.protocol === "http:" || u.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 export function requestError(input: {
   title: string; originCountry: string; destinationCountry: string;
   productPrice: number; travelerReward: number; localPrice?: number | null; currency: string;
+  productUrl?: string | null;
 }): string | null {
   if (!input.title?.trim()) return "Please enter a title.";
   if (!input.originCountry?.trim() || !input.destinationCountry?.trim()) return "Please enter both countries.";
@@ -52,5 +65,7 @@ export function requestError(input: {
   if (!(input.travelerReward >= 0)) return "Traveler reward can't be negative.";
   if (input.localPrice != null && !(input.localPrice > 0)) return "Local price must be greater than 0.";
   if (!/^[A-Za-z]{3}$/.test(input.currency?.trim() ?? "")) return "Currency must be a 3-letter code.";
+  if (input.productUrl != null && input.productUrl.trim() !== "" && !isSafeHttpUrl(input.productUrl))
+    return "Product link must be a valid http(s) URL.";
   return null;
 }
