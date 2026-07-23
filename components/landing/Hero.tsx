@@ -45,7 +45,7 @@ export default function Hero() {
               <div className="ho-flipboard" id="fb2" dangerouslySetInnerHTML={{ __html: FB2_INNER }} />
               <div className="ho-flipboard" id="fb3" dangerouslySetInnerHTML={{ __html: FB3_INNER }} />
             </div>
-            <button className="ho-btn early-access-tile" type="button">Early Access<span className="ho-btn-circle"><svg viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.086 0.424667L32.4375 15.8262L17.0847 31.2277L8.37224 31.2277L20.6941 18.9058L0.408366 18.9058L0.408367 12.7452L20.6941 12.7452L8.37361 0.424666L17.086 0.424667Z" fill="#FDFCFC" /></svg></span></button>
+            <a href="/signup" className="ho-btn early-access-tile">Early Access<span className="ho-btn-circle"><svg viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.086 0.424667L32.4375 15.8262L17.0847 31.2277L8.37224 31.2277L20.6941 18.9058L0.408366 18.9058L0.408367 12.7452L20.6941 12.7452L8.37361 0.424666L17.086 0.424667Z" fill="#FDFCFC" /></svg></span></a>
           </div>
         </div>
       </div>

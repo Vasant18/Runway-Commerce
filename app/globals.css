@@ -1209,3 +1209,115 @@ img { display: block; max-width: 100%; }
   .footer-stripes span { height: 12px; }
   .footer-stripes { margin-bottom: 40px; }
 }
+
+/* ============================================================
+   Auth pages (.cb-*) — signup / login. On-brand boarding-pass
+   card: paper card on ink page, transparent inputs w/ bottom
+   border, amber submit. Reuses existing design tokens.
+   ============================================================ */
+.cb-auth {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  background: var(--ink);
+}
+.cb-auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: clamp(28px, 4vw, 44px);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.cb-auth-card h1 {
+  font-size: clamp(28px, 3.4vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin: 0 0 4px;
+}
+.cb-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cb-field-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--grey);
+}
+.cb-field-input {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 18px;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--grey);
+  padding: 8px 2px;
+  outline: none;
+  transition: border-color .25s;
+}
+.cb-field-input::placeholder { color: #9a948e; }
+.cb-field-input:focus { border-color: var(--ink); }
+.cb-role {
+  display: flex;
+  gap: 10px;
+}
+.cb-role-opt {
+  flex: 1;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--grey-lt);
+  border-radius: var(--radius-md);
+  padding: 12px 8px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.cb-role-opt:hover { border-color: var(--ink); }
+.cb-role-opt.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.cb-error {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--orange);
+}
+.cb-submit {
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  background: var(--amber);
+  border: none;
+  border-radius: var(--radius-md);
+  height: 60px;
+  cursor: pointer;
+  transition: background .25s, opacity .25s;
+}
+.cb-submit:hover { background: var(--amber-lt); }
+.cb-submit:disabled { opacity: .6; cursor: default; }
+.cb-alt {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.cb-alt a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+}
