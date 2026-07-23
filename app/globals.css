@@ -1321,3 +1321,72 @@ img { display: block; max-width: 100%; }
   font-weight: 600;
   text-decoration: underline;
 }
+
+/* ── Task 13: protected dashboard ─────────────────────────── */
+.cb-dash {
+  min-height: 100vh;
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(80px, 12vh, 140px) var(--pad) clamp(48px, 8vh, 96px);
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.cb-dash h1 {
+  font-family: var(--font);
+  font-size: clamp(30px, 4.4vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+.cb-dash-sub {
+  font-family: var(--font);
+  font-size: clamp(15px, 1.6vw, 18px);
+  color: var(--grey-lt);
+  margin: 0 0 clamp(20px, 3vh, 34px);
+  max-width: 52ch;
+}
+.cb-dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+.cb-dash-card {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: clamp(24px, 3vw, 36px);
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+.cb-dash-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: clamp(56px, 22%, 96px);
+  width: 0;
+  border-left: 2px dashed var(--grey-lt);
+}
+.cb-dash-card h2 {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin: 0;
+}
+.cb-dash-card p {
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin: auto 0 0;
+}
