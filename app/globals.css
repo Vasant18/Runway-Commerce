@@ -1626,3 +1626,28 @@ img { display: block; max-width: 100%; }
   margin-top: auto; padding-top: 8px;
 }
 .cb-card-total-inline { font-weight: 700; font-size: 16px; }
+
+/* ── Phase 3: maps ─────────────────────────────────────────── */
+.cb-worldmap {
+  background: var(--ink-2);
+  border: 1px solid rgba(253, 252, 252, 0.12);
+  border-radius: var(--radius-lg);
+  padding: clamp(14px, 2vw, 26px);
+  overflow: hidden;
+}
+.cb-worldmap-title {
+  font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--grey); margin-bottom: 8px;
+}
+.cb-worldmap-svg { display: block; width: 100%; height: auto; }
+.cbmap-label {
+  font-family: var(--font); font-size: 13px; font-weight: 600;
+  fill: var(--paper); paint-order: stroke; stroke: var(--ink-2); stroke-width: 3px;
+}
+.cb-leaflet {
+  width: 100%; height: clamp(300px, 42vh, 460px);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--grey-lt);
+  z-index: 0; /* keep below sticky appnav */
+}
