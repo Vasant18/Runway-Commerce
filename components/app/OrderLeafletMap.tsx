@@ -15,6 +15,12 @@ export type LeafletJourney = {
   courierLabel?: string;  // "Dunzo Local · CB-XYZ123"
 };
 
+// Leaflet's bindPopup(string) renders HTML — escape every interpolated value
+// (labels include buyer-entered addresses) to keep stored XSS out of the map.
+function esc(s: string): string {
+  return s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+}
+
 export default function OrderLeafletMap({ journey }: { journey: LeafletJourney }) {
   const elRef = useRef<HTMLDivElement>(null);
 
@@ -37,8 +43,8 @@ export default function OrderLeafletMap({ journey }: { journey: LeafletJourney }
       const pts: Array<[number, number]> = [];
       const o = journey.origin, d = journey.destination;
 
-      mk(o, "#192227").addTo(map).bindPopup(`<b>${o.label}</b><br/>Departure${journey.flightLabel ? `<br/>${journey.flightLabel}` : ""}`);
-      mk(d, "#F9A600").addTo(map).bindPopup(`<b>${d.label}</b><br/>Arrival${journey.flightLabel ? `<br/>${journey.flightLabel}` : ""}`);
+      mk(o, "#192227").addTo(map).bindPopup(`<b>${esc(o.label)}</b><br/>Departure${journey.flightLabel ? `<br/>${esc(journey.flightLabel)}` : ""}`);
+      mk(d, "#F9A600").addTo(map).bindPopup(`<b>${esc(d.label)}</b><br/>Arrival${journey.flightLabel ? `<br/>${esc(journey.flightLabel)}` : ""}`);
       pts.push([o.lat, o.lng], [d.lat, d.lng]);
 
       // flight arc: sampled quadratic between the airports (visual, not geodesic-exact)
@@ -53,12 +59,12 @@ export default function OrderLeafletMap({ journey }: { journey: LeafletJourney }
       L.polyline(arc, { color: "#F9A600", weight: 3, opacity: 0.9 }).addTo(map);
 
       if (journey.hub) {
-        mk(journey.hub, "#B08CE1").addTo(map).bindPopup(`<b>${journey.hub.label}</b><br/>CrossBorder hub`);
+        mk(journey.hub, "#B08CE1").addTo(map).bindPopup(`<b>${esc(journey.hub.label)}</b><br/>CrossBorder hub`);
         pts.push([journey.hub.lat, journey.hub.lng]);
       }
       if (journey.dropoff) {
         mk(journey.dropoff, "#ADE988").addTo(map)
-          .bindPopup(`<b>${journey.dropoff.label}</b>${journey.courierLabel ? `<br/>${journey.courierLabel}` : ""}`);
+          .bindPopup(`<b>${esc(journey.dropoff.label)}</b>${journey.courierLabel ? `<br/>${esc(journey.courierLabel)}` : ""}`);
         pts.push([journey.dropoff.lat, journey.dropoff.lng]);
         const start = journey.hub ?? d;
         L.polyline([[start.lat, start.lng], [journey.dropoff.lat, journey.dropoff.lng]],
