@@ -1390,3 +1390,159 @@ img { display: block; max-width: 100%; }
   color: var(--ink-soft);
   margin: auto 0 0;
 }
+
+/* ── Phase 2: trips & requests (forms, cards, preview) ─────── */
+.cb-form {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.cb-form-row {
+  display: flex;
+  gap: 14px;
+}
+.cb-form-row > * { flex: 1; }
+.cb-textarea {
+  min-height: 96px;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+/* live cost preview box on the request form */
+.cb-preview {
+  border: 1px dashed var(--grey);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cb-preview-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.cb-preview-row.total {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ink);
+  border-top: 1px solid var(--grey-lt);
+  padding-top: 8px;
+  margin-top: 2px;
+}
+.cb-preview-savings {
+  align-self: flex-start;
+  background: var(--amber);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+
+/* card grid + cards (buyer/traveler postings) */
+.cb-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+.cb-card {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cb-card-route, .cb-card-title {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.cb-card-meta {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.cb-card-costs {
+  margin: 6px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cb-card-costs > div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+.cb-card-costs dt { color: var(--ink-soft); margin: 0; }
+.cb-card-costs dd { margin: 0; font-weight: 500; }
+.cb-card-total {
+  font-weight: 600;
+  border-top: 1px solid var(--grey-lt);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+.cb-card-savings {
+  align-self: flex-start;
+  background: var(--amber);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+.cb-card-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--orange);
+  text-decoration: none;
+}
+.cb-card-by {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+
+/* role nudge (wrong-role visitor to a /new form) */
+.cb-nudge {
+  max-width: 480px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: clamp(28px, 4vw, 44px);
+  font-size: 18px;
+  text-align: center;
+}
+.cb-nudge a { color: var(--orange); font-weight: 600; }
+
+/* dashboard action row + CTAs */
+.cb-dash-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 8px 0 12px;
+}
+.cb-cta {
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  background: var(--amber);
+  border-radius: var(--radius-md);
+  padding: 12px 20px;
+  text-decoration: none;
+  transition: background .2s, opacity .2s;
+}
+.cb-cta:hover { background: var(--amber-lt); }
+.cb-cta.ghost {
+  background: transparent;
+  color: var(--paper);
+  border: 1px solid var(--grey);
+}
+.cb-cta.ghost:hover { border-color: var(--paper); background: transparent; }
