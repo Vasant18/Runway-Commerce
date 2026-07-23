@@ -14,7 +14,8 @@ export async function POST(req: Request) {
 
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: "Invalid request." }, { status: 400 });
-  const { title, productUrl, category, originCountry, destinationCountry, productPrice, travelerReward, localPrice, currency, notes } = body ?? {};
+  const { title, productUrl, category, originCountry, destinationCountry, productPrice, travelerReward, localPrice, currency, notes,
+    quantity, purchaseAt, deliveryCity, deliveryAddress } = body ?? {};
 
   // productPrice/travelerReward/localPrice arrive as MAJOR-unit numbers
   const err = requestError({
@@ -38,6 +39,10 @@ export async function POST(req: Request) {
       localPrice: localPrice != null && localPrice !== "" ? toMinorUnits(Number(localPrice)) : null,
       currency: String(currency).trim().toUpperCase(),
       notes: notes?.trim() || null,
+      quantity: Number.isInteger(Number(quantity)) && Number(quantity) > 0 ? Number(quantity) : 1,
+      purchaseAt: purchaseAt?.trim() || null,
+      deliveryCity: deliveryCity?.trim() || null,
+      deliveryAddress: deliveryAddress?.trim() || null,
     },
     select: { id: true },
   });

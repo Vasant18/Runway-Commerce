@@ -13,7 +13,8 @@ export async function POST(req: Request) {
 
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: "Invalid request." }, { status: 400 });
-  const { fromCountry, toCountry, departDate, arriveDate, luggageCapacityKg } = body ?? {};
+  const { fromCountry, toCountry, departDate, arriveDate, luggageCapacityKg,
+    airline, flightNumber, aircraft, departAirport, arriveAirport } = body ?? {};
   const err = tripError({
     fromCountry: fromCountry ?? "", toCountry: toCountry ?? "",
     departDate: departDate ?? "", arriveDate: arriveDate ?? "", luggageCapacityKg,
@@ -28,6 +29,11 @@ export async function POST(req: Request) {
       departDate: new Date(departDate),
       arriveDate: new Date(arriveDate),
       luggageCapacityKg: luggageCapacityKg != null && luggageCapacityKg !== "" ? Number(luggageCapacityKg) : null,
+      airline: airline?.trim() || null,
+      flightNumber: flightNumber?.trim() || null,
+      aircraft: aircraft?.trim() || null,
+      departAirport: departAirport?.trim().toUpperCase() || null,
+      arriveAirport: arriveAirport?.trim().toUpperCase() || null,
     },
     select: { id: true },
   });

@@ -13,6 +13,7 @@ export default function RequestForm() {
   const [form, setForm] = useState({
     title: "", productUrl: "", category: "", originCountry: "", destinationCountry: "",
     productPrice: "", travelerReward: "", localPrice: "", currency: "USD", notes: "",
+    quantity: "1", purchaseAt: "", deliveryCity: "", deliveryAddress: "",
   });
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -51,10 +52,16 @@ export default function RequestForm() {
         <Field label="Buy in (origin)" value={form.originCountry} onChange={set("originCountry")} />
         <Field label="Deliver to (destination)" value={form.destinationCountry} onChange={set("destinationCountry")} />
       </div>
+      <Field label="Where to buy it (store / site + location)" value={form.purchaseAt} onChange={set("purchaseAt")} placeholder="e.g. Apple Store, Fifth Avenue NYC — or bhphotovideo.com" />
+      <div className="cb-form-row">
+        <Field label="Deliver to city" value={form.deliveryCity} onChange={set("deliveryCity")} placeholder="e.g. Bengaluru" />
+        <Field label="Delivery address" value={form.deliveryAddress} onChange={set("deliveryAddress")} placeholder="street, area, PIN" />
+      </div>
       <div className="cb-form-row">
         <Field label="Product price" type="number" min="0" step="0.01" value={form.productPrice} onChange={set("productPrice")} />
         <Field label="Traveler reward" type="number" min="0" step="0.01" value={form.travelerReward} onChange={set("travelerReward")} />
       </div>
+      <Field label="Quantity" type="number" min="1" step="1" value={form.quantity} onChange={set("quantity")} />
       <div className="cb-form-row">
         <Field label="Local price (optional)" type="number" min="0" step="0.01" value={form.localPrice} onChange={set("localPrice")} />
         <Select label="Currency" value={form.currency} onChange={set("currency")}>
