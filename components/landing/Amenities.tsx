@@ -21,7 +21,7 @@ export default function Amenities() {
             <div className="productCard-0 bnf-card bnf-first">
               <div className="bnf-top product-text-0">
                 <p className="bnf-intro-text">Cross-border shopping, designed for humans.</p>
-                <div className="bnf-name">First Class<br />Amenities</div>
+                <div className="bnf-name">Why<br />CrossBorder</div>
                 <div className="bnf-icon product-icon-0" dangerouslySetInnerHTML={{ __html: ICON_0 }} />
               </div>
             </div>
