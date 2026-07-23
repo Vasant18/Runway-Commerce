@@ -101,6 +101,7 @@ model Request {
   destinationCountry String
   productPrice       Int
   travelerReward     Int
+  localPrice         Int?
   currency           String
   notes              String?
   status             RequestStatus @default(OPEN)
