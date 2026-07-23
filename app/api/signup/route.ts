@@ -9,10 +9,10 @@ export async function POST(req: Request) {
   const { fullName, email, password, role } = body ?? {};
   const err = signupError({ fullName: fullName ?? "", email: email ?? "", password: password ?? "", role: role ?? "" });
   if (err) return NextResponse.json({ error: err }, { status: 400 });
-  const existing = await prisma.user.findUnique({ where: { email: String(email).toLowerCase() } });
+  const existing = await prisma.user.findUnique({ where: { email: String(email).trim().toLowerCase() } });
   if (existing) return NextResponse.json({ error: "That email is already registered." }, { status: 400 });
   const user = await prisma.user.create({
-    data: { fullName, email: String(email).toLowerCase(), passwordHash: await hashPassword(password), role },
+    data: { fullName, email: String(email).trim().toLowerCase(), passwordHash: await hashPassword(password), role },
     select: { id: true },
   });
   return NextResponse.json({ id: user.id }, { status: 201 });

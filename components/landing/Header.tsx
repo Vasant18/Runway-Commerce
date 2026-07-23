@@ -12,6 +12,7 @@ function NavArrow() {
 
 export default function Header() {
   return (
+    <>
     <header className="site-header" id="siteHeader">
       <a
         className="brand"
@@ -30,5 +31,9 @@ export default function Header() {
         <a href="/signup" className="btn btn-amber btn-header">Get Early Access <svg className="btn-arrow-svg" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.086 0.424667L32.4375 15.8262L17.0847 31.2277L8.37224 31.2277L20.6941 18.9058L0.408366 18.9058L0.408367 12.7452L20.6941 12.7452L8.37361 0.424666L17.086 0.424667Z" fill="#F9A600"></path></svg></a>
       </div>
     </header>
+    <div className="mobile-menu" id="mobileMenu">
+      <a href="/login">Log In</a><a href="#amenities">How it works</a><a href="#builtfor">Travelers</a><a href="#footer">Contact</a>
+    </div>
+    </>
   );
 }

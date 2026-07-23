@@ -23,9 +23,9 @@ export default function Footer() {
           </div>
         </div>
         <nav className="footer-list" aria-label="Footer">
-          <a href="#boarding">How it works <span dangerouslySetInnerHTML={{ __html: FL_THIN }} /></a>
-          <a href="#boarding">Travelers <span dangerouslySetInnerHTML={{ __html: FL_THIN }} /></a>
-          <a href="#amenities">Buyers <span dangerouslySetInnerHTML={{ __html: FL_THIN }} /></a>
+          <a href="#amenities">How it works <span dangerouslySetInnerHTML={{ __html: FL_THIN }} /></a>
+          <a href="#builtfor">Travelers <span dangerouslySetInnerHTML={{ __html: FL_THIN }} /></a>
+          <a href="#betterway">Buyers <span dangerouslySetInnerHTML={{ __html: FL_THIN }} /></a>
           <a href="#builtfor">Trust &amp; Safety <span dangerouslySetInnerHTML={{ __html: FL_THIN }} /></a>
           <a href="#footer">Contact <span dangerouslySetInnerHTML={{ __html: FL_THIN }} /></a>
           <a href="#top">Twitter <span dangerouslySetInnerHTML={{ __html: FL_THIN }} /></a>
