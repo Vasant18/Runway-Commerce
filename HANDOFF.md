@@ -5,22 +5,29 @@ into a peer-to-peer cross-border shopping marketplace (travelers carry cheaper-a
 products for buyers; escrow, KYC, ratings). Concept from `plan.md` (a Grabr-like model).
 
 ## Where things stand (2026-07-23)
-**Phase 2 COMPLETE** — build, 34 tests, and full in-browser flow all green.
-- Branch: **`phase-2`** (built ON TOP of `phase-1`; NOT merged — user wants local-only,
-  no PR). Tag: `phase-2-complete`. `phase-1` tag `phase-1-complete` @ `e0302e0` still stands.
-- **Phase 1 was verified in-browser this session** (the flow never checked before): signup
-  → auto-login → dashboard, logout→`/dashboard`→`/login`, login→dashboard, header name link.
-  All good; only console noise is a harmless `favicon.ico` 404.
-- **Commit identity CHANGED in Phase 2:** now placeholder `local <local@localhost>`, unsigned.
-  NOTE: despite the earlier HANDOFF claim, Phase 1's 20 commits were actually authored with a
-  REAL email (`vpujar18 <vpujar@barracuda.com>`). Phase 2 onward uses the placeholder via
-  per-command overrides (global git config untouched):
+**Phase 3 COMPLETE** — build, 65 tests, and the full journey verified in-browser end-to-end.
+- Branch: **`phase-3`** (off `phase-2`; NOT merged — local-only, no PR). Tag: `phase-3-complete`.
+  Earlier tags `phase-1-complete`/`phase-2-complete` still stand.
+- **Commit identity:** placeholder `local <local@localhost>`, unsigned, via per-command overrides
+  (global git config untouched):
   `git -c user.name="local" -c user.email="local@localhost" -c commit.gpgsign=false commit --no-gpg-sign -m "..."`.
-- **Running now:** `PORT=3100 npm run start` → http://localhost:3100 (prod build).
-  Postgres via Docker container **`cb-pg` on host port 5434** (5432 was occupied).
-- To restart: ensure `docker start cb-pg`, then `cd ~/Runway-commerce && npm run build && PORT=3100 npm run start`. Stop: `lsof -ti:3100 | xargs kill`.
-- **Test accounts (Phase 2 verification):** `ollie.p2test@example.com`/`traveler123` (role
-  BOTH, has 1 trip + 1 request), `bella.buyer@example.com`/`buyerpass123` (role BUYER).
+  (Phase 1's commits used a real email — a HANDOFF discrepancy noted then; placeholder from Phase 2 on.)
+- **Running:** `PORT=3100 npm run start` → http://localhost:3100 (prod build).
+  Postgres via Docker container **`cb-pg` on host port 5434**. Seed: `npm run db:seed` (idempotent).
+- To restart: `docker start cb-pg`, then `cd ~/Runway-commerce && npm run build && PORT=3100 npm run start`. Stop: `lsof -ti:3100 | xargs kill`.
+- **Two security fixes this session** (both from the automated commit review, both fixed + tested):
+  reject non-http(s) `productUrl` (stored-XSS) in the requests API + RequestCard; escape
+  user-derived labels in Leaflet popups. `lib/validation.isSafeHttpUrl` is the shared guard.
+
+### Demo accounts (after `npm run db:seed`)
+- **Password for all seeded users:** `demo1234`. **Ops:** `ops@crossborder.local` / `ops12345`.
+- ~100 users: 50 buyers, 46 travelers, 3 BOTH, 1 OPS. Seed also creates ~37 trips (w/ flight
+  details), 41 requests (detailed specs + where-to-buy + delivery address), and orders at EVERY
+  lifecycle stage incl. ~4 CONFIRMED+rated (feed nothing directly — landing testimonials are
+  hand-authored in `Tickets.tsx` from these personas).
+- **Non-seeded manual accounts still exist:** `ollie.p2test@example.com`/`traveler123` (BOTH),
+  `bella.buyer@example.com`/`buyerpass123` (BUYER). Ollie has a full CONFIRMED order from the
+  Phase 3 E2E run (Sony A7 IV, JFK→DEL, Dunzo delivery, escrow released, rated).
 
 ## What Phase 1 delivered
 - Next.js 15 App Router + TS. Landing (`runway-landing`) ported VERBATIM into React
@@ -71,6 +78,40 @@ products for buyers; escrow, KYC, ratings). Concept from `plan.md` (a Grabr-like
   ways; buyer→`/trips/new` nudge; buyer POST `/api/trips`→403; logged-out POST→401; landing `/`
   still animates, no console errors.
 
+## What Phase 3 delivered (Full journey)
+- **Schema v3** (`prisma db push`, no migrations dir): `Role.OPS`; `OrderStatus` +LANDED/AT_HUB/
+  OUT_FOR_DELIVERY (chain CREATED→PURCHASED→IN_TRANSIT→LANDED→AT_HUB→OUT_FOR_DELIVERY→DELIVERED
+  →CONFIRMED); `Trip` +airline/flightNumber/aircraft/departAirport/arriveAirport; `Request`
+  +quantity/purchaseAt/deliveryCity/deliveryAddress; `Order` +deliveryFee/deliveryPartner/
+  deliveryTrackingCode/deliveryCity/deliveryAddress.
+- **Libs (pure, tested — 65 tests total):** `lib/geo.ts` (16 airports + `airportByIata` +
+  `projectToSvg`), `lib/partners.ts` (8 couriers + `partnersForCountry`/`estimateDeliveryFee`),
+  `lib/orders.ts` (**the lifecycle state machine** — `TRANSITIONS` table, `canTransition`/
+  `applyTransition`, `genOtp`, `STAGE_ORDER`/`STAGE_LABELS`), `lib/money.computeOrderTotals`.
+- **APIs:** `matches` POST (traveler offers), `matches/[id]` PATCH (buyer accept→creates Order/
+  decline), `orders/[id]/advance` POST (state-machine gated; resolves actor from session vs
+  order), `orders/[id]/rate` POST. Trips POST + TripForm carry flight fields; requests carry
+  detail fields. `middleware.ts` matcher += `/orders`,`/ops`.
+- **App shell/UI:** `AppNav` (server, w/ signOut server-action), `StageChip`, `OrderTracker`
+  (Amazon-style itinerary stepper), `OrderCard`. **Maps:** `WorldMapSvg` (branded dot-grid world
+  + GSAP-drawn flight arcs + animated plane) on dashboard/order; `OrderLeafletMap` (client-only,
+  OSM tiles, no key — airport/hub/dropoff markers + arc + dashed last-mile) on order detail.
+- **Pages:** dashboard v2 (map hero + stat tiles + pending-offer alert + recent orders),
+  `/orders`, `/orders/[id]` (centerpiece: tracker + both maps + cost breakdown + purchase
+  instructions + role action buttons + buyer OTP + rating form), `/requests/[id]` (buyer decides
+  offers / traveler offers to carry), `/trips/[id]`, **`/ops`** (OPS-gated queue board: receive
+  at hub → assign courier w/ partner Select+fee → OTP delivery).
+- **Landing refresh:** `Tickets.tsx` now six DOM `.cb-pass-card` boarding-pass testimonials
+  (conveyor rig untouched — still six `.pass` wrappers); `Supported.tsx` → "Our Delivery Network"
+  partner pills on the same marquee rig; OTP/hub/last-mile copy pass on Amenities/Betterway.
+- **Verified in-browser — the full loop:** traveler(Ethan) offers on buyer(Ollie)'s Sony A7 IV
+  request → Ollie accepts (Order created, delivery fee $199, total $4,556.50, "saves $443.50")
+  → deposit(escrow HELD) → purchased→boarded→landed → **ops** receive_hub→assign Dunzo (OTP
+  466693, tracking CB-…, fee re-quoted) → buyer sees OTP on order page → wrong OTP=400, correct
+  OTP→DELIVERED → buyer confirms (escrow **RELEASED**) → rated. Leaflet tiles+markers render;
+  SVG arcs render; `/ops` blocked for non-OPS (nudge); landing conveyor animates w/ 6 DOM cards
+  + 36 delivery pills; zero console errors (favicon 404 aside).
+
 ## Critical gotchas (don't re-learn these)
 - **trustHost**: without `trustHost:true` in `lib/auth.ts`, prod (`npm start`) throws
   Auth.js `UntrustedHost` on any non-default host/port. Dev auto-trusts; prod does not.
@@ -99,10 +140,11 @@ products for buyers; escrow, KYC, ratings). Concept from `plan.md` (a Grabr-like
 - **Phase 1 ✅** foundation + marketing + auth + schema + empty dashboard.
 - **Phase 2 ✅** Trips & Requests (post trip, post product request w/ price-gap+reward math,
   list/browse, populated dashboard). Matching deliberately deferred to Phase 3.
-- **Phase 3** Matching & Orders + simulated escrow lifecycle (deposit→held→released).
-  Trip/Request `status` enums already anticipate this (`OPEN`→`MATCHED`, `UPCOMING`→`ACTIVE`).
-  The platform fee (constant now) first PERSISTS on the `Order` here.
-- **Phase 4** Trust: messaging, ratings/reputation, OTP delivery, KYC placeholders, disputes.
+- **Phase 3 ✅** Full journey: matching (offer→accept), simulated escrow (deposit→held→released),
+  flight legs, **platform middleman** (hub→courier assignment+delivery fee→OTP delivery), mutual
+  ratings, journey maps, ops console, landing refresh. Fee + delivery fee persist on the `Order`.
+- **Phase 4** Trust deepening: in-app messaging, KYC vendor placeholders, disputes/refunds,
+  reputation surfacing on profiles. (Ratings + OTP already shipped in Phase 3.)
 - **Phase 5** Real Stripe Connect, customs/duty estimation, AI matching.
 
 ## Key files
@@ -110,6 +152,8 @@ products for buyers; escrow, KYC, ratings). Concept from `plan.md` (a Grabr-like
   `docs/superpowers/plans/2026-07-23-crossborder-phase1.md`
 - Phase 2 spec/plan: `docs/superpowers/specs/2026-07-23-crossborder-phase2-design.md`,
   `docs/superpowers/plans/2026-07-23-crossborder-phase2.md`
+- Phase 3 spec/plan: `docs/superpowers/specs/2026-07-23-crossborder-phase3-design.md`,
+  `docs/superpowers/plans/2026-07-23-crossborder-phase3.md`
 - SDD progress ledger (gitignored scratch): `.superpowers/sdd/progress.md` (per-task
   commits + review dispositions — recovery map if context is lost).
 - `plan.md` — the original CrossBorder concept brief.
