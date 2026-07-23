@@ -12,6 +12,15 @@ export function computeTotals(input: { productPrice: number; travelerReward: num
   return { platformFee, totalCost };
 }
 
+// Grand total for an Order: product + reward + 5% platform fee + last-mile delivery fee.
+export function computeOrderTotals(input: { productPrice: number; travelerReward: number; deliveryFee: number }): {
+  platformFee: number; totalCost: number;
+} {
+  const platformFee = estimatePlatformFee(input.productPrice, input.travelerReward);
+  const totalCost = input.productPrice + input.travelerReward + platformFee + input.deliveryFee;
+  return { platformFee, totalCost };
+}
+
 export function computeSavings(localPrice: number | null | undefined, totalCost: number): number | null {
   if (localPrice == null) return null;
   return localPrice - totalCost;

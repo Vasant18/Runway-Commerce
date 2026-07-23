@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
-  PLATFORM_FEE_PCT, estimatePlatformFee, computeTotals,
+  PLATFORM_FEE_PCT, estimatePlatformFee, computeTotals, computeOrderTotals,
   computeSavings, formatMoney, toMinorUnits, fromMinorUnits,
 } from "./money";
 
@@ -19,6 +19,18 @@ describe("computeTotals", () => {
     const { platformFee, totalCost } = computeTotals({ productPrice: 400000, travelerReward: 15000 });
     expect(platformFee).toBe(20750);
     expect(totalCost).toBe(435750);
+  });
+});
+
+describe("computeOrderTotals", () => {
+  it("adds delivery fee to the grand total", () => {
+    const { platformFee, totalCost } = computeOrderTotals({ productPrice: 400000, travelerReward: 15000, deliveryFee: 34900 });
+    expect(platformFee).toBe(20750); // unchanged: 5% of product+reward only
+    expect(totalCost).toBe(470650);  // 400000 + 15000 + 20750 + 34900
+  });
+  it("zero delivery fee degrades to computeTotals", () => {
+    expect(computeOrderTotals({ productPrice: 400000, travelerReward: 15000, deliveryFee: 0 }).totalCost)
+      .toBe(computeTotals({ productPrice: 400000, travelerReward: 15000 }).totalCost);
   });
 });
 
