@@ -11,6 +11,7 @@ enum Role {
   BUYER
   TRAVELER
   BOTH
+  OPS
 }
 
 enum KycStatus {
@@ -50,6 +51,9 @@ enum OrderStatus {
   CREATED
   PURCHASED
   IN_TRANSIT
+  LANDED
+  AT_HUB
+  OUT_FOR_DELIVERY
   DELIVERED
   CONFIRMED
 }
@@ -85,6 +89,11 @@ model Trip {
   departDate       DateTime
   arriveDate       DateTime
   luggageCapacityKg Float?
+  airline          String?
+  flightNumber     String?
+  aircraft         String?
+  departAirport    String?
+  arriveAirport    String?
   status           TripStatus @default(UPCOMING)
   createdAt        DateTime   @default(now())
   matches          Match[]
@@ -103,6 +112,10 @@ model Request {
   travelerReward     Int
   localPrice         Int?
   currency           String
+  quantity           Int           @default(1)
+  purchaseAt         String?
+  deliveryCity       String?
+  deliveryAddress    String?
   notes              String?
   status             RequestStatus @default(OPEN)
   createdAt          DateTime      @default(now())
@@ -131,10 +144,15 @@ model Order {
   productPrice   Int
   travelerReward Int
   platformFee    Int
+  deliveryFee    Int          @default(0)
   totalAmount    Int
   currency       String
   escrowStatus   EscrowStatus @default(AWAITING_DEPOSIT)
   deliveryOtp    String?
+  deliveryPartner String?
+  deliveryTrackingCode String?
+  deliveryCity   String?
+  deliveryAddress String?
   status         OrderStatus  @default(CREATED)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
