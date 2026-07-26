@@ -47,14 +47,17 @@ const PASSES: Pass[] = [
 ];
 
 function PassCard({ p }: { p: Pass }) {
+  // Two separate rounded panels with the dotted perforation running in the gap
+  // between them — matching the original baked ticket art.
   return (
-    <div className="cb-tk" style={{ background: p.bg }}>
-      <div className="cb-tk-stub">
+    <div className="cb-tk">
+      <div className="cb-tk-stub" style={{ background: p.bg }}>
         <img className="cb-tk-photo" src={p.img} alt={`Portrait of ${p.name}`} />
         <span className="cb-tk-name">{p.name}</span>
         <span className="cb-tk-role">{p.role}</span>
       </div>
-      <div className="cb-tk-main">
+      <span className="cb-tk-dots" aria-hidden />
+      <div className="cb-tk-main" style={{ background: p.bg }}>
         <p className="cb-tk-quote">“{p.quote}”</p>
       </div>
     </div>

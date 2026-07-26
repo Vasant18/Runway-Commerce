@@ -317,6 +317,12 @@ img { display: block; max-width: 100%; }
    so it reads upright in the cell's bottom half after the card swings down. */
 .fb-back { transform: translateX(-50%) rotate(180deg) scaleX(-1); z-index: -1; }
 .ho-flipboard img { width: 15.97vw; height: auto; }  /* 230×76 */
+.ho-flipboard img.fb-logo {
+  /* courier SVGs are wide monochrome marks — size by height, tint paper-white */
+  width: auto; height: 3.4vw; min-height: 30px; max-width: 16vw;
+  filter: invert(98%) sepia(2%) saturate(120%) hue-rotate(310deg) brightness(103%);
+  opacity: .92;
+}
 
 .ho-btn {
   display: flex; align-items: center;
@@ -324,6 +330,7 @@ img { display: block; max-width: 100%; }
   background: var(--amber);
   color: var(--ink);
   border: none; cursor: pointer;
+  text-decoration: none;
   font-family: var(--font);
   font-size: 2.431vw;              /* title1: 35 */
   font-weight: 600;
@@ -1926,16 +1933,23 @@ img { display: block; max-width: 100%; }
   width: 100%; height: 100%;
   display: flex;
   color: var(--ink);
-  border-radius: 18px;
-  overflow: hidden;
 }
 .pass .cb-tk { position: absolute; inset: 0; }
+/* original art = two independently rounded panels, dots in the gap between */
 .cb-tk-stub {
-  width: 29%; flex-shrink: 0;
+  width: 26.5%; flex-shrink: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: clamp(2px, .3vw, 5px);
+  gap: clamp(1px, .2vw, 4px);
   padding: clamp(8px, 1.2vw, 20px) clamp(6px, .9vw, 14px);
-  border-right: 4px dotted rgba(253, 252, 252, 0.9);
+  border-radius: clamp(12px, 1.9vw, 30px);
+}
+.cb-tk-dots {
+  flex-shrink: 0;
+  width: clamp(3px, .38vw, 6px);
+  margin: clamp(4px, .7vw, 12px) clamp(2px, .32vw, 6px);
+  background-image: radial-gradient(circle, var(--paper) 42%, transparent 46%);
+  background-size: 100% clamp(9px, 1.15vw, 19px);
+  background-repeat: repeat-y;
 }
 .cb-tk-photo {
   width: clamp(64px, 9.3vw, 150px); height: auto;
@@ -1944,27 +1958,30 @@ img { display: block; max-width: 100%; }
   display: block;
 }
 .cb-tk-name {
-  font-size: clamp(10px, 1.18vw, 19px); font-weight: 600; color: var(--ink);
-  letter-spacing: .06em; text-transform: uppercase; text-align: center;
+  font-size: clamp(10px, 1.13vw, 18px); font-weight: 600; color: var(--ink);
+  letter-spacing: .04em; text-transform: uppercase; text-align: center;
   white-space: nowrap;
 }
 .cb-tk-role { font-size: clamp(8px, .92vw, 15px); font-weight: 500; color: var(--ink); opacity: .82; text-align: center; }
 .cb-tk-main {
   flex: 1; min-width: 0;
   display: flex; align-items: center;
-  padding: clamp(10px, 1.6vw, 30px) clamp(14px, 2.4vw, 44px) clamp(10px, 1.6vw, 30px) clamp(14px, 2.2vw, 40px);
+  border-radius: clamp(12px, 1.9vw, 30px);
+  padding: clamp(10px, 1.6vw, 30px) clamp(14px, 2.6vw, 48px) clamp(10px, 1.6vw, 30px) clamp(14px, 2.4vw, 44px);
 }
 .cb-tk-quote {
   margin: 0;
-  font-size: clamp(15px, 2.55vw, 42px); line-height: 1.08;
+  font-size: clamp(14px, 2.35vw, 38px); line-height: 1.12;
   font-weight: 600; letter-spacing: -0.02em; color: var(--ink);
   display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden;
 }
 
 /* delivery-network pills riding the original investor marquee rig */
-.inv-logo {
-  height: 2.9vw; min-height: 34px; width: auto;
-  margin: 0 3.6vw;
+.inv-strip img.inv-logo {
+  /* .inv-strip img above sets margin:0 (orig logos had spacing baked into the
+     webp) — these standalone SVGs need real gaps, so out-specific it */
+  height: 2.6vw; min-height: 30px; width: auto;
+  margin: 0 4.2vw;
   align-self: center;
   /* simple-icons ship black — tint to paper-white like the original strips */
   filter: invert(98%) sepia(2%) saturate(120%) hue-rotate(310deg) brightness(103%);
