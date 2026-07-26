@@ -60,7 +60,10 @@ img { display: block; max-width: 100%; }
   display: grid;
   place-items: center;
 }
-.preloader-logo { width: min(72vw, 900px); height: auto; }
+.preloader-logo {
+  font-size: clamp(48px, 12vw, 160px); font-weight: 600;
+  letter-spacing: -0.03em; color: var(--paper); line-height: 1;
+}
 .preloader.done { animation: preout .5s ease .2s forwards; }
 @keyframes preout { to { opacity: 0; visibility: hidden; } }
 
@@ -73,7 +76,11 @@ img { display: block; max-width: 100%; }
   pointer-events: none;
 }
 .site-header > * { pointer-events: auto; }
-.brand-logo { width: 88px; height: auto; transition: opacity .3s; }
+.brand-logo {
+  font-size: 26px; font-weight: 600; letter-spacing: -0.02em;
+  color: var(--paper); line-height: 1; transition: opacity .3s;
+}
+.brand { text-decoration: none; }
 
 /* orig Header__Right: nav + button grouped on the right (links gap 45, group gap 32) */
 .main-nav { display: flex; align-items: center; gap: 45px; margin-left: auto; margin-right: 32px; transition: opacity .3s, transform .3s; }
@@ -1041,7 +1048,12 @@ img { display: block; max-width: 100%; }
 .footer-stripes span:nth-child(3) { background: var(--amber-lt); }
 
 .footer-word { display: flex; justify-content: center; margin-bottom: 3.82vw; overflow: hidden; }
-.footer-logo { width: 96.5vw; height: auto; }
+.footer-logo {
+  display: block;
+  font-size: clamp(64px, 24.5vw, 380px); font-weight: 600;
+  letter-spacing: -0.03em; color: var(--paper); line-height: 1.05;
+  white-space: nowrap;
+}
 
 .footer-grid {
   display: grid;
@@ -1177,6 +1189,10 @@ img { display: block; max-width: 100%; }
   .bnf-videos { width: 94vw; height: auto; aspect-ratio: 733/600; }
   .bnf-videos video:first-child { opacity: 1; }
   .tickets-stage { width: 94vw; aspect-ratio: 794/315; height: auto; }
+  .cb-tk-quote { font-size: clamp(11px, 2.6vw, 16px); -webkit-line-clamp: 5; }
+  .cb-tk-name { font-size: clamp(8px, 1.7vw, 11px); }
+  .cb-tk-role { font-size: clamp(7px, 1.4vw, 10px); }
+  .cb-tk-avatar { width: clamp(30px, 7vw, 46px); height: clamp(38px, 8.8vw, 58px); font-size: clamp(11px, 2.4vw, 16px); }
   .sup-card { min-height: 0; padding: 18px; }
   .sup-card h2 { font-size: 26px; }
   .inv-strip img { height: 34px; margin: 10px 14px; }
@@ -1446,9 +1462,141 @@ img { display: block; max-width: 100%; }
 /* card grid + cards (buyer/traveler postings) */
 .cb-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 16px;
   width: 100%;
+}
+
+/* ── marketplace boarding-pass tickets (trips / requests / orders) ──
+   Airline accent arrives via inline --tk-accent/--tk-badge custom props
+   (lib/airlines.ts); unknown airlines fall back to house amber. */
+.cb-ticket {
+  position: relative;
+  display: flex;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-decoration: none;
+}
+.cb-ticket::before {
+  content: "";
+  position: absolute; inset: 0 auto 0 0;
+  width: 6px;
+  background: var(--tk-accent, var(--amber));
+}
+.cb-ticket-main {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+  padding: 18px 18px 18px 24px;
+}
+.cb-ticket-title {
+  font-size: 19px; font-weight: 600; letter-spacing: -0.02em;
+}
+.cb-ticket-route {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  font-size: 20px; font-weight: 600; letter-spacing: -0.02em;
+}
+.cb-ticket-route-sm { font-size: 15px; }
+.cb-ticket-iata { font-weight: 700; letter-spacing: 2px; }
+.cb-ticket-plane { width: 18px; height: auto; color: var(--tk-accent, var(--orange)); flex-shrink: 0; }
+.cb-ticket-badge {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+  background: var(--tk-badge, var(--amber-lt)); color: var(--tk-accent-ink, var(--ink));
+  border-radius: 999px; padding: 4px 10px; white-space: nowrap;
+}
+.cb-ticket-meta {
+  font-size: 14px; color: var(--ink-soft);
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.cb-ticket-chip {
+  font-size: 11px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase;
+  border: 1px solid var(--grey-lt); border-radius: 999px; padding: 2px 8px;
+}
+.cb-ticket-who {
+  display: flex; align-items: center; gap: 8px; min-width: 0; margin-top: auto;
+  width: 100%;
+}
+.cb-ticket-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--ink); color: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; letter-spacing: .5px; flex-shrink: 0;
+}
+.cb-ticket-name {
+  font-size: 13px; font-weight: 600; color: var(--ink-soft);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cb-ticket-stars {
+  margin-left: auto; font-size: 13px; color: var(--amber);
+  letter-spacing: 1px; flex-shrink: 0;
+}
+.cb-ticket-stars em { font-style: normal; color: var(--ink-soft); margin-left: 4px; font-size: 12px; }
+.cb-ticket-stub {
+  width: 30%; min-width: 108px; flex-shrink: 0;
+  border-left: 2px dashed var(--grey-lt);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; text-align: center;
+  padding: 14px 10px;
+  background: linear-gradient(180deg, var(--paper) 0%, #f4efe9 100%);
+}
+.cb-ticket-fig { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+.cb-ticket-fig-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--grey);
+}
+.cb-ticket .cb-card-costs { width: 100%; }
+
+/* Amazon-style browse shell: filter sidebar + results */
+.cb-browse {
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) 1fr;
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+}
+.cb-browse-side {
+  position: sticky; top: 86px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+.cb-browse-controls { display: flex; flex-direction: column; gap: 14px; }
+.cb-browse-field { display: flex; flex-direction: column; gap: 5px; }
+.cb-browse-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--grey);
+}
+.cb-browse-input {
+  font-family: var(--font); font-size: 14px; color: var(--ink);
+  background: #fff; border: 1px solid var(--grey-lt); border-radius: 10px;
+  padding: 8px 10px; outline: none; transition: border-color .2s;
+  width: 100%;
+}
+.cb-browse-input:focus { border-color: var(--ink); }
+.cb-browse-apply {
+  font-family: var(--font); font-size: 14px; font-weight: 600;
+  background: var(--amber); color: var(--ink);
+  border: none; border-radius: 999px; padding: 10px 16px; cursor: pointer;
+  transition: transform .15s ease;
+}
+.cb-browse-apply:hover { transform: translateY(-2px); }
+.cb-browse-clear {
+  font-size: 13px; font-weight: 600; color: var(--ink-soft);
+  text-align: center; text-decoration: none;
+}
+.cb-browse-clear:hover { text-decoration: underline; }
+.cb-browse-main { min-width: 0; }
+.cb-browse-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.cb-browse-count { font-size: 14px; font-weight: 600; color: var(--grey); }
+@media (max-width: 860px) {
+  .cb-browse { grid-template-columns: 1fr; }
+  .cb-browse-side { position: static; }
+  .cb-cards { grid-template-columns: 1fr; }
 }
 .cb-card {
   background: var(--paper);
@@ -1715,61 +1863,50 @@ img { display: block; max-width: 100%; }
 .cb-ops-fee { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
 .cb-offer { display: flex; flex-direction: column; gap: 12px; max-width: 480px; }
 
-/* ── Phase 3: landing testimonial boarding passes (inside .pass rig) ── */
-.cb-pass-card {
+/* ── Landing testimonial tickets (inside .pass rig) — original runway.com
+      two-panel art: oval-portrait stub left, oversized quote right.
+      Original had NO shadow on the pass cards. ── */
+.cb-tk {
   width: 100%; height: 100%;
   display: flex;
-  background: var(--paper);
   color: var(--ink);
   border-radius: 18px;
-  box-shadow: 0 18px 50px rgba(16, 24, 29, 0.35);
   overflow: hidden;
 }
-.pass .cb-pass-card { position: absolute; inset: 0; }
-.cb-pass-main {
-  flex: 1;
-  display: flex; flex-direction: column; justify-content: space-between;
-  padding: clamp(10px, 1.6vw, 26px) clamp(12px, 1.8vw, 30px);
-  min-width: 0;
+.pass .cb-tk { position: absolute; inset: 0; }
+.cb-tk--amber { background: var(--amber); }
+.cb-tk--dark { background: var(--orange); }
+.cb-tk-stub {
+  width: 26%; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: clamp(3px, .5vw, 8px);
+  padding: clamp(8px, 1.2vw, 20px) clamp(6px, .9vw, 14px);
+  border-right: 3px dotted rgba(253, 252, 252, 0.75);
 }
-.cb-pass-route { display: flex; align-items: center; gap: 10px; }
-.cb-pass-iata { font-size: clamp(13px, 1.25vw, 20px); font-weight: 700; letter-spacing: 2px; }
-.cb-pass-plane { width: clamp(14px, 1.2vw, 20px); height: auto; color: var(--orange); }
-.cb-pass-flight {
-  margin-left: auto; font-size: clamp(9px, .8vw, 12px); font-weight: 700;
-  letter-spacing: 1.4px; text-transform: uppercase; color: var(--grey);
-}
-.cb-pass-quote {
-  margin: 0; font-size: clamp(10px, 1.05vw, 17px); line-height: 1.42;
-  font-weight: 500; letter-spacing: -0.01em; color: var(--ink);
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-}
-.cb-pass-who { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.cb-pass-avatar {
-  width: clamp(18px, 1.8vw, 30px); height: clamp(18px, 1.8vw, 30px);
-  border-radius: 50%; background: var(--ink); color: var(--paper);
+.cb-tk-avatar {
+  width: clamp(38px, 4.6vw, 74px); height: clamp(48px, 5.8vw, 94px);
+  border-radius: 50%;
+  background: var(--paper); color: var(--ink);
   display: flex; align-items: center; justify-content: center;
-  font-size: clamp(8px, .7vw, 11px); font-weight: 700; letter-spacing: .5px;
-  flex-shrink: 0;
+  font-size: clamp(13px, 1.5vw, 26px); font-weight: 600; letter-spacing: .5px;
+  margin-bottom: clamp(2px, .4vw, 8px);
 }
-.cb-pass-name { font-size: clamp(9px, .85vw, 13px); font-weight: 600; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cb-pass-stars { margin-left: auto; font-size: clamp(9px, .9vw, 14px); color: var(--amber); letter-spacing: 1px; flex-shrink: 0; }
-.cb-pass-stub {
-  width: 26%;
-  border-left: 2px dashed var(--grey-lt);
-  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-  padding: clamp(10px, 1.4vw, 22px) clamp(6px, 1vw, 16px);
-  background: linear-gradient(180deg, var(--paper) 0%, #f4efe9 100%);
+.cb-tk--dark .cb-tk-avatar { background: var(--ink); color: var(--paper); }
+.cb-tk-name {
+  font-size: clamp(9px, .95vw, 15px); font-weight: 600;
+  letter-spacing: 1.2px; text-transform: uppercase; text-align: center;
 }
-.cb-pass-stub-tag {
-  font-size: clamp(9px, .9vw, 13px); font-weight: 700; text-align: center;
-  background: var(--amber); color: var(--ink);
-  border-radius: 999px; padding: 5px 10px;
+.cb-tk-role { font-size: clamp(8px, .8vw, 12px); font-weight: 500; opacity: .78; text-align: center; }
+.cb-tk-main {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center;
+  padding: clamp(10px, 1.4vw, 26px) clamp(12px, 1.9vw, 34px);
 }
-.cb-pass-barcode {
-  width: 100%; height: clamp(16px, 2vw, 30px);
-  background: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 5px, var(--ink) 5px 6px, transparent 6px 10px);
-  border-radius: 2px; opacity: .85;
+.cb-tk-quote {
+  margin: 0;
+  font-size: clamp(12px, 1.55vw, 26px); line-height: 1.18;
+  font-weight: 600; letter-spacing: -0.02em; color: var(--ink);
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
 }
 
 /* delivery-network pills riding the original investor marquee rig */

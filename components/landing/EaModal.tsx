@@ -22,7 +22,7 @@ export default function EaModal() {
               <div className="bp-values"><b>NOW BOARDING</b><b>1A</b><b>FIRST CLASS</b></div>
               <div className="bp-qr-row">
                 <img className="bp-qr" src="/assets/img/qrcode.webp" alt="" />
-                <p>CrossBorder&#8217;s verified travelers and secure escrow get your order moving in days &#8212; not weeks. Post a request and match with someone flying your way.</p>
+                <p>Runway&#8217;s verified travelers and secure escrow get your order moving in days &#8212; not weeks. Post a request and match with someone flying your way.</p>
               </div>
             </div>
           </div>{/* /bp-left-card */}

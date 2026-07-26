@@ -19,7 +19,7 @@ export default function Takeoff() {
           <span dangerouslySetInnerHTML={{ __html: TB_GROUND }} />
         </div>
         <h2 className="takeoff-title"><span className="line"><span>Ready for</span></span><span className="line"><span>Takeoff?</span></span></h2>
-        <p className="takeoff-sub">Join CrossBorder and start shopping the world &#8212; or earning on your next trip.</p>
+        <p className="takeoff-sub">Join Runway and start shopping the world &#8212; or earning on your next trip.</p>
       </div>
     </div>
   );

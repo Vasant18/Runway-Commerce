@@ -7,7 +7,7 @@ export default async function AppNav() {
   const name = session?.user?.name ?? "";
   return (
     <nav className="cb-appnav">
-      <a className="cb-appnav-brand" href="/dashboard">CROSSBORDER</a>
+      <a className="cb-appnav-brand" href="/dashboard">RUNWAY</a>
       <div className="cb-appnav-links">
         <a href="/dashboard">Dashboard</a>
         <a href="/trips">Trips</a>

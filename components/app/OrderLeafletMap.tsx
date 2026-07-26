@@ -59,7 +59,7 @@ export default function OrderLeafletMap({ journey }: { journey: LeafletJourney }
       L.polyline(arc, { color: "#F9A600", weight: 3, opacity: 0.9 }).addTo(map);
 
       if (journey.hub) {
-        mk(journey.hub, "#B08CE1").addTo(map).bindPopup(`<b>${esc(journey.hub.label)}</b><br/>CrossBorder hub`);
+        mk(journey.hub, "#B08CE1").addTo(map).bindPopup(`<b>${esc(journey.hub.label)}</b><br/>Runway hub`);
         pts.push([journey.hub.lat, journey.hub.lng]);
       }
       if (journey.dropoff) {

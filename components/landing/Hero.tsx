@@ -28,7 +28,7 @@ export default function Hero() {
                 <span className="ho-ktext">RNW</span>
               </div>
               <h1 className="ho-title">Shop the world. Carried by travelers.</h1>
-              <p className="ho-text">CrossBorder connects you with travelers heading your way — get products that are cheaper abroad, delivered by real people.</p>
+              <p className="ho-text">Runway connects you with travelers heading your way — get products that are cheaper abroad, delivered by real people.</p>
             </div>
             <div className="ho-subtract">
               <span dangerouslySetInnerHTML={{ __html: HO_SUBSVG }} />
@@ -53,7 +53,7 @@ export default function Hero() {
       <section className="iproduct" id="iproduct">
         <div className="ip-inner" id="ipInner">
           <div className="ip-imgwrap" id="ipImgwrap">
-            <img src="/assets/img/product-ui-desktop.webp" alt="CrossBorder product interface" />
+            <img src="/assets/img/product-ui-desktop.webp" alt="Runway product interface" />
           </div>
         </div>
       </section>

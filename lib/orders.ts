@@ -47,7 +47,7 @@ export type TransitionInput = { otp?: string; partner?: string };
 const ACTOR_MSG: Record<ActorRole, string> = {
   buyer: "Only the buyer can do this.",
   traveler: "Only the traveler can do this.",
-  ops: "Only CrossBorder ops can do this.",
+  ops: "Only Runway ops can do this.",
 };
 
 // Returns null when allowed, else a human-readable reason (same style as validation.ts).
@@ -106,7 +106,7 @@ export const STAGE_LABELS: Record<string, string> = {
   PURCHASED: "Item purchased",
   IN_TRANSIT: "In flight",
   LANDED: "Landed",
-  AT_HUB: "At CrossBorder hub",
+  AT_HUB: "At Runway hub",
   OUT_FOR_DELIVERY: "Out for delivery",
   DELIVERED: "Delivered",
   CONFIRMED: "Confirmed",

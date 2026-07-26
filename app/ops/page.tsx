@@ -17,7 +17,7 @@ export default async function OpsConsole() {
       <>
         <AppNav />
         <main className="cb-auth">
-          <div className="cb-nudge">The Ops console is for the CrossBorder operations team.</div>
+          <div className="cb-nudge">The Ops console is for the Runway operations team.</div>
         </main>
       </>
     );

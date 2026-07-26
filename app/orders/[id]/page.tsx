@@ -128,7 +128,7 @@ export default async function OrderDetail({ params }: { params: Promise<{ id: st
               journey={{
                 origin: { lat: from.lat, lng: from.lng, label: `${from.city} (${from.iata})` },
                 destination: { lat: to.lat, lng: to.lng, label: `${to.city} (${to.iata})` },
-                hub: { lat: to.lat - 0.08, lng: to.lng + 0.06, label: `CrossBorder hub, ${to.city}` },
+                hub: { lat: to.lat - 0.08, lng: to.lng + 0.06, label: `Runway hub, ${to.city}` },
                 dropoff,
                 flightLabel: trip.airline ? `${trip.airline} ${trip.flightNumber ?? ""} · ${trip.aircraft ?? ""}` : undefined,
                 courierLabel: order.deliveryPartner ? `${order.deliveryPartner} · ${order.deliveryTrackingCode}` : undefined,
