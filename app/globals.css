@@ -1931,36 +1931,45 @@ img { display: block; max-width: 100%; }
 }
 .pass .cb-tk { position: absolute; inset: 0; }
 .cb-tk-stub {
-  width: 26%; flex-shrink: 0;
+  width: 29%; flex-shrink: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: clamp(3px, .5vw, 8px);
+  gap: clamp(2px, .3vw, 5px);
   padding: clamp(8px, 1.2vw, 20px) clamp(6px, .9vw, 14px);
-  border-right: 3px dotted rgba(253, 252, 252, 0.75);
+  border-right: 4px dotted rgba(253, 252, 252, 0.9);
 }
 .cb-tk-photo {
-  width: clamp(44px, 5.6vw, 92px); height: auto;
-  border-radius: 44% / 38%;
-  margin-bottom: clamp(2px, .4vw, 8px);
+  width: clamp(64px, 9.3vw, 150px); height: auto;
+  border-radius: 46% / 36%;
+  margin-bottom: clamp(4px, .7vw, 14px);
   display: block;
 }
 .cb-tk-name {
-  font-size: clamp(9px, .95vw, 15px); font-weight: 600;
-  letter-spacing: 1.2px; text-transform: uppercase; text-align: center;
+  font-size: clamp(10px, 1.18vw, 19px); font-weight: 600; color: var(--ink);
+  letter-spacing: .06em; text-transform: uppercase; text-align: center;
+  white-space: nowrap;
 }
-.cb-tk-role { font-size: clamp(8px, .8vw, 12px); font-weight: 500; opacity: .78; text-align: center; }
+.cb-tk-role { font-size: clamp(8px, .92vw, 15px); font-weight: 500; color: var(--ink); opacity: .82; text-align: center; }
 .cb-tk-main {
   flex: 1; min-width: 0;
   display: flex; align-items: center;
-  padding: clamp(10px, 1.4vw, 26px) clamp(12px, 1.9vw, 34px);
+  padding: clamp(10px, 1.6vw, 30px) clamp(14px, 2.4vw, 44px) clamp(10px, 1.6vw, 30px) clamp(14px, 2.2vw, 40px);
 }
 .cb-tk-quote {
   margin: 0;
-  font-size: clamp(12px, 1.55vw, 26px); line-height: 1.18;
+  font-size: clamp(15px, 2.55vw, 42px); line-height: 1.08;
   font-weight: 600; letter-spacing: -0.02em; color: var(--ink);
-  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden;
 }
 
 /* delivery-network pills riding the original investor marquee rig */
+.inv-logo {
+  height: 2.9vw; min-height: 34px; width: auto;
+  margin: 0 3.6vw;
+  align-self: center;
+  /* simple-icons ship black — tint to paper-white like the original strips */
+  filter: invert(98%) sepia(2%) saturate(120%) hue-rotate(310deg) brightness(103%);
+  opacity: .92;
+}
 .inv-pill {
   display: inline-flex; align-items: center;
   height: 3vw; min-height: 38px;

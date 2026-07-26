@@ -1,8 +1,32 @@
 // "Our delivery network" — same marquee rig (.inv-row/.inv-strip classes are the
-// animation hooks), imgs swapped for styled partner wordmark pills.
+// animation hooks), now with real courier brand logos (monochrome SVGs, tinted
+// paper-white via CSS like the original investor strips) + capability pills.
+
+const ROW1 = [
+  ["fedex", "FedEx"],
+  ["ups", "UPS"],
+  ["dhl", "DHL"],
+  ["usps", "USPS"],
+] as const;
+
+const ROW2 = [
+  ["dpd", "DPD"],
+  ["hermes", "Hermes"],
+  ["deutschepost", "Deutsche Post"],
+  ["dhl", "DHL"],
+] as const;
+
+function Logos({ items }: { items: readonly (readonly [string, string])[] }) {
+  // content duplicated once, like the original strips, so the marquee loops seamlessly
+  return (
+    <>
+      {items.map(([f, name], i) => <img className="inv-logo" key={`a${i}`} src={`/assets/img/partners/${f}.svg`} alt={name} />)}
+      {items.map(([f, name], i) => <img className="inv-logo" key={`b${i}`} src={`/assets/img/partners/${f}.svg`} alt="" aria-hidden />)}
+    </>
+  );
+}
 
 function Pills({ names }: { names: string[] }) {
-  // content duplicated once, like the original strips, so the marquee loops seamlessly
   return (
     <>
       {names.map((n, i) => <span className="inv-pill" key={`a${i}`}>{n}</span>)}
@@ -22,10 +46,10 @@ export default function Supported() {
         </div>
         <div className="sup-marquees">
           <div className="inv-row"><div className="inv-strip strip-l">
-            <Pills names={["BlueDart Express", "Dunzo Local", "FedEx Local", "UPS Ground", "DHL eCommerce", "Lalamove"]} />
+            <Logos items={ROW1} />
           </div></div>
           <div className="inv-row"><div className="inv-strip strip-r">
-            <Pills names={["Sendle", "Loggi", "Lalamove", "BlueDart Express", "DHL eCommerce", "FedEx Local"]} />
+            <Logos items={ROW2} />
           </div></div>
           <div className="inv-row"><div className="inv-strip strip-l strip-slow">
             <Pills names={["OTP-verified handoff", "Live tracking", "Hub receiving", "Escrow protected", "Door-to-door", "Customs-aware"]} />
