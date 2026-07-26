@@ -4,6 +4,7 @@ import prisma from "@/lib/db";
 import AppNav from "@/components/app/AppNav";
 import RequestCard from "@/components/app/RequestCard";
 import BrowseControls from "@/components/app/BrowseControls";
+import { BrowseHero, QuickChips, PerksStrip } from "@/components/app/BrowsePromo";
 import { toMinorUnits } from "@/lib/money";
 import type { Prisma } from "@prisma/client";
 
@@ -53,8 +54,13 @@ export default async function BrowseRequests({ searchParams }: { searchParams: S
     <>
       <AppNav />
       <main className="cb-dash">
-        <h1>Open requests</h1>
-        <p className="cb-dash-sub">Buyers waiting for a traveler — carry one on a trip you&apos;re already taking, earn the reward.</p>
+        <BrowseHero
+          title="Open requests"
+          sub="Buyers waiting for a traveler — carry one on a trip you're already taking, earn the reward."
+          ctaLabel="Post a trip"
+          ctaHref="/trips/new"
+        />
+        <QuickChips items={categories.slice(0, 8)} param="category" base="/requests" active={sp.category} />
         <div className="cb-browse">
           <aside className="cb-browse-side">
             <BrowseControls kind="requests" facets={{ categories, countries }} current={sp} />
@@ -68,6 +74,7 @@ export default async function BrowseRequests({ searchParams }: { searchParams: S
               : <div className="cb-cards">{requests.map(r => <RequestCard key={r.id} request={r as any} href={`/requests/${r.id}`} />)}</div>}
           </div>
         </div>
+        <PerksStrip />
       </main>
     </>
   );

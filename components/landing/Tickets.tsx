@@ -1,48 +1,56 @@
 // Testimonials as DOM tickets recreating the original runway.com two-panel art:
-// left stub = oval avatar + NAME + role, right panel = oversized quote.
+// left stub = oval portrait photo + NAME + role, right panel = oversized quote.
+// Photos are cropped from the original baked ticket art (pass-face-N.png) and each
+// card keeps its original background color; startup logos removed, copy re-skinned.
 // CRITICAL: the .pass wrappers (count=6, DOM order, data-i) are the GSAP conveyor's
 // hooks (LandingEffects "tickets" rig) — only the INNER card content may change.
 
 type Pass = {
-  initials: string;
+  img: string;
   name: string;
   role: string;
   quote: string;
-  variant: "amber" | "dark";
+  bg: string;
 };
 
 const PASSES: Pass[] = [
   {
-    initials: "AR", name: "Ananya Rao", role: "Buyer · Bengaluru", variant: "amber",
-    quote: "I saved almost half on a camera that isn't even sold here yet. Payment only released when I typed the OTP at my door.",
+    img: "/assets/img/pass-face-0.png", bg: "#DE8410",
+    name: "Kunal Saini", role: "Buyer · Bengaluru",
+    quote: "The savings, tracking, and escrow are unlike any other way to shop abroad right now.",
   },
   {
-    initials: "FS", name: "Farhan Souza", role: "Traveler · Dubai", variant: "dark",
-    quote: "I already fly this route every month. Carrying one sealed box paid for my checked bag and dinner — no surprises.",
+    img: "/assets/img/pass-face-1.png", bg: "#FFC655",
+    name: "Mike Madden", role: "Traveler · New York",
+    quote: "You're flying with empty kilos if you don't have Runway. One carry pays for my checked bag.",
   },
   {
-    initials: "HS", name: "Hana Sato", role: "Buyer · Tokyo", variant: "amber",
-    quote: "What sold me was the escrow. My money didn't move until the item was in my hands. Sealed, exactly the spec I asked for.",
+    img: "/assets/img/pass-face-2.png", bg: "#F9A600",
+    name: "Prabhdeep Chawla", role: "Buyer · Dubai",
+    quote: "For everything not sold here yet, we've moved entirely to Runway.",
   },
   {
-    initials: "LO", name: "Liam O'Connor", role: "Traveler · London", variant: "dark",
-    quote: "I landed, dropped the parcel at the hub, and a local courier took the last mile. Zero friction, rated like a pro.",
+    img: "/assets/img/pass-face-3.png", bg: "#F9A600",
+    name: "Chris Gadek", role: "Buyer · London",
+    quote: "Not paying import markups ever again is extraordinary.",
   },
   {
-    initials: "PS", name: "Priya Sharma", role: "Buyer · Delhi", variant: "amber",
-    quote: "Watching it move like a flight — purchased, boarded, landed, out for delivery — was addictive. Three days door to door.",
+    img: "/assets/img/pass-face-4.png", bg: "#F9A600",
+    name: "Tom Impallomeni", role: "Traveler · London",
+    quote: "Escrow plus OTP delivery is magic. So much worry is saved having it all in one place.",
   },
   {
-    initials: "DM", name: "Diego Martins", role: "Traveler · São Paulo", variant: "dark",
-    quote: "Two trips a month, two carries a month. The math is transparent and the buyers are verified. My flights became income.",
+    img: "/assets/img/pass-face-5.png", bg: "#FFC655",
+    name: "Tamasin Ford", role: "Buyer · Tokyo",
+    quote: "I watched my order like a flight — purchased, boarded, landed, delivered. Three days door to door.",
   },
 ];
 
 function PassCard({ p }: { p: Pass }) {
   return (
-    <div className={`cb-tk cb-tk--${p.variant}`}>
+    <div className="cb-tk" style={{ background: p.bg }}>
       <div className="cb-tk-stub">
-        <span className="cb-tk-avatar" aria-hidden>{p.initials}</span>
+        <img className="cb-tk-photo" src={p.img} alt={`Portrait of ${p.name}`} />
         <span className="cb-tk-name">{p.name}</span>
         <span className="cb-tk-role">{p.role}</span>
       </div>

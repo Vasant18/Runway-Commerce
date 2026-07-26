@@ -4,6 +4,7 @@ import prisma from "@/lib/db";
 import AppNav from "@/components/app/AppNav";
 import TripCard from "@/components/app/TripCard";
 import BrowseControls from "@/components/app/BrowseControls";
+import { BrowseHero, QuickChips, PerksStrip } from "@/components/app/BrowsePromo";
 import type { Prisma } from "@prisma/client";
 
 type SP = Promise<Record<string, string | undefined>>;
@@ -52,8 +53,13 @@ export default async function BrowseTrips({ searchParams }: { searchParams: SP }
     <>
       <AppNav />
       <main className="cb-dash">
-        <h1>Upcoming trips</h1>
-        <p className="cb-dash-sub">Travelers heading somewhere soon — post a request they can carry.</p>
+        <BrowseHero
+          title="Upcoming trips"
+          sub="Travelers heading somewhere soon — post a request they can carry, or find a flight matching your route."
+          ctaLabel="Post a request"
+          ctaHref="/requests/new"
+        />
+        <QuickChips items={airlines.slice(0, 8)} param="airline" base="/trips" active={sp.airline} />
         <div className="cb-browse">
           <aside className="cb-browse-side">
             <BrowseControls kind="trips" facets={{ airlines, countries }} current={sp} />
@@ -67,6 +73,7 @@ export default async function BrowseTrips({ searchParams }: { searchParams: SP }
               : <div className="cb-cards">{trips.map(t => <TripCard key={t.id} trip={t as any} href={`/trips/${t.id}`} />)}</div>}
           </div>
         </div>
+        <PerksStrip />
       </main>
     </>
   );
